@@ -81,7 +81,8 @@ header {
         justify-content: flex-end;
         align-items: center;
         width: 8%;
-        margin-top: 2%;
+        margin-top: 3%;
+        margin-right: 4%;
         height: 100%;
         position: relative;
 
@@ -89,14 +90,25 @@ header {
             margin: 1vh 0 0 2vw;
         }
     }
-    
 
 
 
-    nav img{
-        width: 3.5vw;
+    /* nav img{
         height: auto;
         cursor: pointer;
+    } */
+    
+
+    #gitlog_text_logo {
+        position: absolute;
+        top: 2.3%;
+        left: 6%;
+        height: 6%;
+        width: 20%;
+    }
+
+    #arrow_goHome {
+        width: 200%;
     }
 
 }
@@ -154,7 +166,7 @@ main {
         width: 20%;
         position: absolute;
         bottom: 28%;
-        right: 4.5%;
+        right:6%;
         height: 70%;
     }
 
@@ -269,17 +281,17 @@ main {
 
         
             #timerGlassHour {
-                width: 80%;
+                width: 150%;
                 height: 30%;
 
                 position: absolute;
-                top: 25%;
-                left: 10%;
+                top: 27%;
+                left: -23%;
 
-                animation-name: rotatingGlass_HourglassAnimation;
+                /* animation-name: rotatingGlass_HourglassAnimation;
                 animation-duration: 2s;
                 animation-timing-function: linear;
-                animation-iteration-count: infinite; 
+                animation-iteration-count: infinite;  */
                 
             }
             
@@ -476,7 +488,7 @@ main {
             #game1-mascot {
                 position: relative;
                 top: 2.5%;
-                width: 80%;
+                width: 90%;
                 height: 46%;
             }
 
@@ -1132,12 +1144,6 @@ footer p {
     top: 5%;
 
 
-    /* animation-name: gitlogFall; 
-    animation-duration: 1.8s;  */
-    /*  animation-name: gitlogZoomIn;
-    animation-duration: 2s; */
-    /* this are the 2 animations for out title card*/
-
     animation-name: gitlogFall;
     animation-duration: 2s;  
     animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1258,12 +1264,7 @@ footer p {
             opacity: 1;
             z-index: -1;
             
-            /* animation-name: blackBackgroundFadeIn; */
             animation-name: none;
-            /* animation-duration: 1.5s;
-            animation-timing-function: ease-in-out;
-            animation-fill-mode: forwards;
-            transform-origin: bottom center; */
         
         } 
 
@@ -1275,7 +1276,7 @@ footer p {
                         z-index: 1;
                     }
                     100% { 
-                        opacity: 0.5; 
+                        opacity: 0.7; 
                         z-index: 1;
                     }
                 } 
