@@ -2,6 +2,7 @@ document.querySelectorAll('.game-link').forEach(link => {
   link.addEventListener('click', function (e) {
     e.preventDefault(); 
 
+
     const titleCard = document.getElementById('title-card');
     const blackBackground =  document.getElementById('blackBackground');
     const whiteFadeIn = document.getElementById('whiteFadeIn');

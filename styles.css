@@ -49,6 +49,11 @@ body, html {
     background-image: url("assets/images/game2-screen-background_darker.png");
 }
 
+.leaderboard-page #aspect-ratio-wrapper {
+    background-image: url("assets/images/leaderboard-bg.png");
+
+}
+
 
     
 
@@ -92,13 +97,6 @@ header {
     }
 
 
-
-    /* nav img{
-        height: auto;
-        cursor: pointer;
-    } */
-    
-
     #gitlog_text_logo {
         position: absolute;
         top: 2.3%;
@@ -111,6 +109,11 @@ header {
         width: 200%;
     }
 
+}
+
+#home-menu-button {
+    width: 10%;
+    height: 50%;
 }
 
 
@@ -188,7 +191,7 @@ main {
         position: absolute;
         width: auto;
         height: 45%;
-        top: 49%;
+        top: 46%;
         left: 50%;
     }
 
@@ -197,6 +200,11 @@ main {
     animation: housesHover 0.4s ease-out forwards;
     cursor: pointer;
     }
+
+
+
+
+
 
 
     .game1-content {
@@ -297,11 +305,11 @@ main {
             
 
             #powerUpJar {
-                width: 90%;
+                width: 100%;
                 height: 38%;
 
                 position: absolute;
-                left: 5%;
+                left: 1%;
                 bottom: 2%;
 
                 animation-name: rotatingGlass;
@@ -573,7 +581,7 @@ main {
 
                     /* box-shadow: 0 0 1px 1px #FFF, 0 0 1px 2px #FFE0B2, 0 0 3px 3px #FFAB91, 0 0 5px 5px #FF6F61; */
                     border: 5px hsl(0, 74%, 24%) solid;
-                    background-image: url("assets/images/Wordle Tutorial.png");
+                    background-image: url("assets/images/Updated Instructions.png");
                     background-size: contain;      
                     background-position: center;   
                     background-repeat: no-repeat;
@@ -700,7 +708,7 @@ main {
                 }
 
                     #game2-cabinet input[type="radio"]:checked + img {
-                        outline: 5px solid red;
+                        outline: 5px solid #39FF14;
                         outline-offset: -3px;
                         border-radius: 4px;
                         border-radius: 15%;
@@ -763,7 +771,7 @@ main {
 
 
         #game2-bottom {
-            color: white;
+            color: rgb(255, 255, 255);
             background-color: rgba(116, 19, 19, 0.3);
             width: 100%;
             height: 30%;
@@ -911,7 +919,7 @@ main {
                 }
 
                 .attempt-hint-correct-guess {
-                    color: rgb(241, 248, 241);
+                    color: #39FF14;
                     text-shadow: 
                             #000000 0 0 3px,
                             #000000 0 0 4px,
@@ -921,7 +929,7 @@ main {
                 }
 
                 .attempt-hint-correct-row{
-                    color: rgb(255, 255, 255);
+                    color: GOLD;
                     text-shadow: 
                             #000000 0 0 3px,
                             #000000 0 0 4px,
