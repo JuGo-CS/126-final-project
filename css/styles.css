@@ -2246,6 +2246,124 @@ main {
                 color: #FF6B6B !important;
             }
 
+            #leaderboard-all-container {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                padding-top: 1vw;
+            }
+
+            #leaderboard-all-viewport {
+                width: 85%;
+                max-height: 26vw;
+                overflow-y: auto;
+                overflow-x: hidden;
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+                scrollbar-width: thin;
+            }
+
+            #leaderboard-all-table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                color: white;
+            }
+
+            #leaderboard-all-table thead th {
+                position: sticky;
+                top: 0;
+                padding: 0.8vw 1.5vw;
+                font-size: 1.1vw;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+                text-align: center;
+                background: rgba(0, 0, 0, 0.55);
+                z-index: 2;
+            }
+
+            #leaderboard-all-table tbody td {
+                padding: 0.6vw 1.5vw;
+                font-size: 1vw;
+                font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
+            }
+
+            #leaderboard-all-table tbody tr {
+                transition: background 0.2s;
+            }
+
+            #leaderboard-all-table tbody tr:hover {
+                background: rgba(255, 255, 255, 0.15) !important;
+            }
+
+            .game-diff-cell {
+                text-align: center;
+                font-weight: 500;
+                width: 25%;
+                color: rgba(255, 255, 255, 0.85);
+                white-space: nowrap;
+            }
+
+            .is-current-player .game-diff-cell {
+                color: #FFD700;
+                font-weight: 700;
+            }
+
+            .diff-badge {
+                display: inline-block;
+                padding: 0.2vw 0.7vw;
+                border-radius: 999px;
+                font-size: 0.85vw;
+                font-weight: bold;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                background: rgba(255, 255, 255, 0.12);
+                box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+            }
+
+            .diff-badge-easy {
+                color: #7CFFB2;
+                box-shadow: inset 0 0 0 1px rgba(124, 255, 178, 0.5);
+                background: rgba(124, 255, 178, 0.12);
+            }
+
+            .diff-badge-medium {
+                color: #FFD166;
+                box-shadow: inset 0 0 0 1px rgba(255, 209, 102, 0.5);
+                background: rgba(255, 209, 102, 0.12);
+            }
+
+            .diff-badge-hard {
+                color: #FF6B6B;
+                box-shadow: inset 0 0 0 1px rgba(255, 107, 107, 0.5);
+                background: rgba(255, 107, 107, 0.12);
+            }
+
+            #leaderboard-all-viewport {
+                position: relative;
+                border: 2px solid rgba(255, 215, 0, 0.35);
+                background: linear-gradient(180deg, rgba(20, 20, 35, 0.55), rgba(10, 10, 20, 0.75));
+            }
+
+            #leaderboard-all-container::before,
+            #leaderboard-all-container::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                height: 2.5vw;
+                pointer-events: none;
+                z-index: 3;
+            }
+
+            #leaderboard-all-container {
+                position: relative;
+            }
+
             #game1-board, #game2-board {
                 color: white;
                 border: none !important;

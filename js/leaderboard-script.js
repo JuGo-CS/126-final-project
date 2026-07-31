@@ -8,6 +8,9 @@ let currentDifficulty = "ALL";
 let hasAnimatedTopTen = false;
 let pendingCelebration = null;
 let celebrationTimer = null;
+let autoScrollRAF = null;
+let userScrolling = false;
+let userScrollIdleTimer = null;
 
 document.addEventListener("DOMContentLoaded", initializePage);
 
@@ -47,8 +50,14 @@ function initializePage(){
         btn.addEventListener('mouseenter', () => AudioManager.playHover());
     });
 
-    loadLeaderboardGame1();
-    loadLeaderboardGame2();
+    updateBoardVisibility();
+
+    if (currentDifficulty === "ALL") {
+        loadLeaderboardAll();
+    } else {
+        loadLeaderboardGame1();
+        loadLeaderboardGame2();
+    }
 }
 
 function selectBoard(boardNum) {
@@ -68,6 +77,10 @@ function selectBoard(boardNum) {
     }
 
     AudioManager.playButtonPress();
+
+    if (currentDifficulty === "ALL") {
+        loadLeaderboardAll();
+    }
 }
 
 function selectDifficulty(diff) {
@@ -80,9 +93,16 @@ function selectDifficulty(diff) {
 
     AudioManager.playButtonPress();
 
+    updateBoardVisibility();
+
     // Reload the current board
-    if (currentBoard === 1) loadLeaderboardGame1();
-    else loadLeaderboardGame2();
+    if (currentDifficulty === "ALL") {
+        loadLeaderboardAll();
+    } else if (currentBoard === 1) {
+        loadLeaderboardGame1();
+    } else {
+        loadLeaderboardGame2();
+    }
 }
 
 async function loadLeaderboardGame1() {
@@ -149,7 +169,6 @@ function renderLeaderboard(tbodyId, data, scoreField) {
     data.forEach((row, index) => {
         const score = row[scoreField] ?? row.score ?? row.MG_highest_score ?? row.CB_highest_score ?? 0;
 
-        // Dense rank: same score = same rank
         if (score !== previousScore) {
             currentRank = index + 1;
             previousScore = score;
@@ -162,24 +181,23 @@ function renderLeaderboard(tbodyId, data, scoreField) {
         else if (rank === 3) rankClass = "rank-bronze";
 
         const name = row.player_name || row.user_name || "Unknown";
+        const isCurrent = name.toLowerCase() === activeUsername.toLowerCase() ? "is-current-player" : "";
 
         const tr = document.createElement("tr");
+        tr.className = isCurrent;
         tr.innerHTML = `
             <td class="rank-cell ${rankClass}">${rank}</td>
-            <td class="name-cell"> ${escapeHtml(name)}</td>
+            <td class="name-cell">${escapeHtml(name)}</td>
             <td class="score-cell">${score}</td>
         `;
         tbody.appendChild(tr);
 
-        if (name.toLowerCase() === activeUsername.toLowerCase()) {
+        if (isCurrent) {
             matchedRow = tr;
             matchedRank = rank;
-            tr.classList.add('is-current-player');
         }
     });
 
-    // Top 10 celebration — only fires once, only for the board matching the
-    // pending celebration left by the game just finished.
     if (pendingCelebration && !hasAnimatedTopTen &&
         tbodyId === `leaderboard-game${pendingCelebration.game}-body` && matchedRow) {
         hasAnimatedTopTen = true;
@@ -190,6 +208,132 @@ function renderLeaderboard(tbodyId, data, scoreField) {
             stopCelebration();
             celebrationTimer = null;
         }, 8000);
+    }
+}
+
+// ============================================================
+// SHOW EITHER THE PER-GAME TABLE OR THE COMBINED "ALL" SCROLLER
+// ============================================================
+function updateBoardVisibility() {
+    const tableContainer = document.getElementById('leaderboard-table-container');
+    const allContainer = document.getElementById('leaderboard-all-container');
+    if (currentDifficulty === "ALL") {
+        if (tableContainer) tableContainer.style.display = 'none';
+        if (allContainer) allContainer.style.display = 'flex';
+        startAutoScroll();
+    } else {
+        if (tableContainer) tableContainer.style.display = 'flex';
+        if (allContainer) allContainer.style.display = 'none';
+        stopAutoScroll();
+    }
+}
+
+// ============================================================
+// "ALL" VIEW — combined leaderboard across both games/difficulties
+// ============================================================
+async function loadLeaderboardAll() {
+    const body = document.getElementById('leaderboard-all-body');
+    const clone = document.getElementById('leaderboard-all-body-clone');
+    const tableName = currentBoard === 1 ? 'leaderboard_game1' : 'leaderboard_game2';
+    try {
+        const { data, error } = await supabaseClient
+            .from(tableName)
+            .select('*')
+            .order('score', { ascending: false })
+            .limit(30);
+
+        if (error) throw error;
+
+        renderLeaderboardAll(data || []);
+    } catch (error) {
+        body.innerHTML = `<tr><td colspan='4' class='error-message'>⚠️ Failed to load leaderboard (${error.message || "connection error"})</td></tr>`;
+        clone.innerHTML = "";
+    }
+}
+
+function renderLeaderboardAll(data) {
+    const body = document.getElementById('leaderboard-all-body');
+    const clone = document.getElementById('leaderboard-all-body-clone');
+    body.innerHTML = "";
+    clone.innerHTML = "";
+
+    if (!data || data.length === 0) {
+        body.innerHTML = `<tr><td colspan='4' class='empty-message'>No leaders yet... Play your way to the top!</td></tr>`;
+        return;
+    }
+
+    let currentRank = 0;
+    let previousScore = null;
+    const activeUsername = getPlayerName();
+    const diffLabel = { EASY: 'Easy', MEDIUM: 'Medium', HARD: 'Hard' };
+    const diffClass = { EASY: 'diff-badge-easy', MEDIUM: 'diff-badge-medium', HARD: 'diff-badge-hard' };
+
+    const rowsHtml = data.map((row, index) => {
+        const score = row.score ?? 0;
+        if (score !== previousScore) {
+            currentRank = index + 1;
+            previousScore = score;
+        }
+        const rank = currentRank;
+        let rankClass = "";
+        if (rank === 1) rankClass = "rank-gold";
+        else if (rank === 2) rankClass = "rank-silver";
+        else if (rank === 3) rankClass = "rank-bronze";
+
+        const name = row.player_name || row.user_name || "Unknown";
+        const isCurrent = name.toLowerCase() === activeUsername.toLowerCase() ? "is-current-player" : "";
+        const diffText = diffLabel[row.rating] || row.rating || "";
+        const badgeClass = diffClass[row.rating] || "";
+
+        return `
+            <tr class="${isCurrent}">
+                <td class="rank-cell ${rankClass}">${rank}</td>
+                <td class="name-cell">${escapeHtml(name)}</td>
+                <td class="score-cell">${score}</td>
+                <td class="game-diff-cell"><span class="diff-badge ${badgeClass}">${diffText}</span></td>
+            </tr>`;
+    }).join("");
+
+    body.innerHTML = rowsHtml;
+    // Duplicate content so the auto-scroll loop can reset seamlessly
+    clone.innerHTML = rowsHtml;
+}
+
+function startAutoScroll() {
+    stopAutoScroll();
+    const viewport = document.getElementById('leaderboard-all-viewport');
+    if (!viewport) return;
+
+    if (!viewport.dataset.listenersBound) {
+        const pauseOnInteract = () => {
+            userScrolling = true;
+            clearTimeout(userScrollIdleTimer);
+            userScrollIdleTimer = setTimeout(() => { userScrolling = false; }, 2500);
+        };
+        viewport.addEventListener('wheel', pauseOnInteract, { passive: true });
+        viewport.addEventListener('touchstart', pauseOnInteract, { passive: true });
+        viewport.addEventListener('touchmove', pauseOnInteract, { passive: true });
+        viewport.addEventListener('pointerdown', pauseOnInteract, { passive: true });
+        viewport.dataset.listenersBound = "true";
+    }
+
+    const step = () => {
+        if (!userScrolling) {
+            const halfHeight = viewport.scrollHeight / 2;
+            viewport.scrollTop += 0.5;
+            if (viewport.scrollTop >= halfHeight) {
+                viewport.scrollTop -= halfHeight;
+            }
+        }
+        autoScrollRAF = requestAnimationFrame(step);
+    };
+    autoScrollRAF = requestAnimationFrame(step);
+}
+
+function stopAutoScroll() {
+    if (autoScrollRAF) {
+        cancelAnimationFrame(autoScrollRAF);
+        autoScrollRAF = null;
     }
 }
 
@@ -233,6 +377,8 @@ window.addEventListener('beforeunload', () => {
         celebrationTimer = null;
     }
     stopCelebration();
+    stopAutoScroll();
+    clearTimeout(userScrollIdleTimer);
 });
 
 // Helper: escape HTML to prevent XSS
