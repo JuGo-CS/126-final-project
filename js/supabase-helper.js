@@ -204,7 +204,7 @@ async function submitScoreGame2(playerName, score, difficulty) {
         // Check existing score for this player (case-insensitive via JS)
         const { data: allRows, error: fetchError } = await supabaseClient
             .from('leaderboard_game2')
-            .select('score, player_name');
+            .select('score, player_name, rating');
 
         if (fetchError) {
             console.error("Error checking existing score:", fetchError);
