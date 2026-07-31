@@ -166,7 +166,7 @@ function renderLeaderboard(tbodyId, data, scoreField) {
         const tr = document.createElement("tr");
         tr.innerHTML = `
             <td class="rank-cell ${rankClass}">${rank}</td>
-            <td class="name-cell">${escapeHtml(name)}</td>
+            <td class="name-cell"> ${escapeHtml(name)}</td>
             <td class="score-cell">${score}</td>
         `;
         tbody.appendChild(tr);
@@ -174,6 +174,7 @@ function renderLeaderboard(tbodyId, data, scoreField) {
         if (name.toLowerCase() === activeUsername.toLowerCase()) {
             matchedRow = tr;
             matchedRank = rank;
+            tr.classList.add('is-current-player');
         }
     });
 

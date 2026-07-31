@@ -2135,6 +2135,30 @@ main {
                 width: 34%;
             }
 
+            .is-current-player {
+                background: rgba(255, 215, 0, 0.14) !important;
+                box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.55);
+            }
+
+            .is-current-player .name-cell {
+                color: #FFD700;
+                font-weight: 800;
+                text-shadow: 0 0 3px rgba(71, 64, 25, 1);
+                text-shadow: 0 0 8px rgba(44, 40, 13, 0.5);
+            }
+
+            .is-current-player .name-cell::before {
+                content: " \2605";
+                font-size: 0.85em;
+                color: #FFD700;
+            }
+
+            .is-current-player .name-cell::after {
+                content: " \2605";
+                font-size: 0.85em;
+                color: #FFD700;
+            }
+
             .top10-target-row .name-cell,
             .top10-target-row .rank-cell,
             .top10-target-row .score-cell {

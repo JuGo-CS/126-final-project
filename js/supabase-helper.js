@@ -158,15 +158,6 @@ function consumePendingCelebration() {
     }
 }
 
-function getLastPlayed() {
-    try {
-        const data = localStorage.getItem("gitlog_last_played");
-        return data ? JSON.parse(data) : null;
-    } catch (e) {
-        return null;
-    }
-}
-
 // ============================================================
 // SUBMIT SCORE — Game 1 (Matching Pairs)
 // Only saves if the player won. Updates only if new score is higher.

@@ -67,7 +67,6 @@ window.addEventListener("resize", adjustTileMatrix);
 // ============================================================
 function startGame1(selectedDifficulty) {
     difficulty = selectedDifficulty;
-    saveLastPlayed(1, difficulty);
 
     // Set grid size based on difficulty
     if (difficulty === "EASY") {
@@ -339,6 +338,7 @@ function endGame(){
     const playerName = getPlayerName();
     if (score > 0) {
         AudioManager.playFinish(null);
+        saveLastPlayed(1, difficulty);
         submitScoreGame1(playerName, score, difficulty).then(result => {
             if (result && result.submitted) {
                 // Check rank after submission

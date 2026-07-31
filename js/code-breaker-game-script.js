@@ -69,7 +69,6 @@ document.getElementById("game2-submit-button").addEventListener("click", evaluat
 // ============================================================
 function startGame2(selectedDifficulty) {
     difficulty = selectedDifficulty;
-    saveLastPlayed(2, difficulty);
 
     // Reset state
     correctValues.length = 0;
@@ -462,6 +461,7 @@ function endGame(win){
         AudioManager.playFinish(null);
         const finalScore = calculateGame2Score(win, attemptNum - 1);
         const playerName = getPlayerName();
+        saveLastPlayed(2, difficulty);
         submitScoreGame2(playerName, finalScore, difficulty).then(result => {
             if (result && result.submitted) {
                 // Check rank after submission
