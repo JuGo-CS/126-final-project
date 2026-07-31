@@ -2284,6 +2284,8 @@ main {
                 text-align: center;
                 background: #2A2A45;
                 z-index: 2;
+                color: #FFD700;
+                border-bottom: 3px solid #FFD700;
             }
 
             #leaderboard-content:has(#leaderboard-game1-switch.active-btn) #leaderboard-all-table thead th {
