@@ -126,6 +126,47 @@ function getPlayerName() {
     return localStorage.getItem("gitlog_active_username") || "Anonymous";
 }
 
+function saveLastPlayed(game, difficulty) {
+    try {
+        localStorage.setItem("gitlog_last_played", JSON.stringify({ game, difficulty }));
+    } catch (e) { /* ignore */ }
+}
+
+function getLastPlayed() {
+    try {
+        const data = localStorage.getItem("gitlog_last_played");
+        return data ? JSON.parse(data) : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+function savePendingCelebration(game, difficulty, rank) {
+    try {
+        localStorage.setItem("gitlog_pending_celebration", JSON.stringify({ game, difficulty, rank }));
+    } catch (e) { /* ignore */ }
+}
+
+function consumePendingCelebration() {
+    try {
+        const data = localStorage.getItem("gitlog_pending_celebration");
+        if (!data) return null;
+        localStorage.removeItem("gitlog_pending_celebration");
+        return JSON.parse(data);
+    } catch (e) {
+        return null;
+    }
+}
+
+function getLastPlayed() {
+    try {
+        const data = localStorage.getItem("gitlog_last_played");
+        return data ? JSON.parse(data) : null;
+    } catch (e) {
+        return null;
+    }
+}
+
 // ============================================================
 // SUBMIT SCORE — Game 1 (Matching Pairs)
 // Only saves if the player won. Updates only if new score is higher.

@@ -69,6 +69,7 @@ document.getElementById("game2-submit-button").addEventListener("click", evaluat
 // ============================================================
 function startGame2(selectedDifficulty) {
     difficulty = selectedDifficulty;
+    saveLastPlayed(2, difficulty);
 
     // Reset state
     correctValues.length = 0;
@@ -467,6 +468,9 @@ function endGame(win){
                 getPlayerRank('leaderboard_game2', playerName, difficulty).then(rank => {
                     const rankEl = document.getElementById('game2-rank-display');
                     if (rankEl && rank !== null) {
+                        if (rank <= 10) {
+                            savePendingCelebration(2, difficulty, rank);
+                        }
                         if (rank <= 3) {
                             rankEl.innerHTML = `&#127942; Rank #${rank} — Top 3!`;
                             rankEl.style.color = '#FFD700';

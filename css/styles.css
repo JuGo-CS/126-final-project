@@ -2135,6 +2135,75 @@ main {
                 width: 34%;
             }
 
+            .top10-target-row .name-cell,
+            .top10-target-row .rank-cell,
+            .top10-target-row .score-cell {
+                opacity: 0;
+                transition: opacity 0.25s ease;
+            }
+
+            .top10-settled-row {
+                animation: top10RowSettle 0.8s ease;
+            }
+
+            @keyframes top10RowSettle {
+                0% { background: rgba(255, 215, 0, 0.35); }
+                100% { background: transparent; }
+            }
+
+            .top10-zoom-badge {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(2.4);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.4vw;
+                padding: 1.5vw 2.5vw;
+                background: rgba(20, 20, 30, 0.9);
+                border: 2px solid #FFD700;
+                border-radius: 1vw;
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+                z-index: 9999;
+                pointer-events: none;
+                opacity: 0;
+                transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+                            top 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+                            left 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+                            opacity 0.3s ease;
+            }
+
+            .top10-zoom-badge.animate-in {
+                opacity: 1;
+                top: var(--target-top, 50%);
+                left: var(--target-left, 50%);
+                transform: translate(0, 0) scale(0.4);
+                transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.5s,
+                            top 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.5s,
+                            left 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.5s,
+                            opacity 0.9s ease 1.1s;
+                opacity: 0;
+            }
+
+            .top10-zoom-medal {
+                font-size: 2.5vw;
+            }
+
+            .top10-zoom-name {
+                font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
+                font-weight: bold;
+                font-size: 2vw;
+                color: #FFD700;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+                white-space: nowrap;
+            }
+
+            .top10-zoom-rank {
+                font-size: 1vw;
+                color: #FFF;
+            }
+
             .score-cell {
                 text-align: center;
                 font-weight: bold;

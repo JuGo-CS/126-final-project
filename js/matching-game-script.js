@@ -67,6 +67,7 @@ window.addEventListener("resize", adjustTileMatrix);
 // ============================================================
 function startGame1(selectedDifficulty) {
     difficulty = selectedDifficulty;
+    saveLastPlayed(1, difficulty);
 
     // Set grid size based on difficulty
     if (difficulty === "EASY") {
@@ -344,6 +345,10 @@ function endGame(){
                 getPlayerRank('leaderboard_game1', playerName, difficulty).then(rank => {
                     const rankEl = document.getElementById('game1-rank-display');
                     if (rankEl && rank !== null) {
+                        if (rank <= 10) {
+                            savePendingCelebration(1, difficulty, rank);
+                        }
+
                         if (rank <= 3) {
                             rankEl.innerHTML = `&#127942; Rank #${rank} — Top 3!`;
                             rankEl.style.color = '#FFD700';
