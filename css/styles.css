@@ -12,7 +12,7 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(145deg, #2d0a0a, #1a0505);
-    z-index: 2;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1119,6 +1119,7 @@ main {
         position: absolute;
         top: 47%;
         left: 15%;
+        z-index: 5;
     }
 
     #game2-house {
@@ -1127,6 +1128,7 @@ main {
         height: 45%;
         top: 46%;
         left: 50%;
+        z-index: 5;
     }
 
     #game1-house:hover,
@@ -2454,6 +2456,7 @@ footer p {
     left: 30%;
     top: 5%;
     transform-origin: bottom center;
+    z-index: 5;
 }
 
 #title-card.animate {
@@ -3703,6 +3706,44 @@ footer p {
     transform: scale(0.95);
 }
 
+#bird-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.flying-bird {
+    position: absolute;
+    left: 0;
+    pointer-events: none;
+    will-change: transform;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+}
+
+.flying-bird img {
+    display: block;
+    height: auto;
+}
+
+.bird-flip {
+    transform: scaleX(-1);
+}
+
+@keyframes birdFlyLTR {
+    from { transform: translateX(-40vw); }
+    to   { transform: translateX(140vw); }
+}
+
+@keyframes birdFlyRTL {
+    from { transform: translateX(140vw); }
+    to   { transform: translateX(-40vw); }
+}
 
 
 
